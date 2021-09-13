@@ -1,30 +1,4 @@
-<div class="container mb-3">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Marca</th>
-                <th scope="col">Modelo</th>
-                <th scope="col">Versión</th>
-                <th scope="col">Cambio</th>
-                <th scope="col">Color</th>
-                <th scope="col">Kilómetros</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let coche of coches">
-                <td>{{coche.modelo.marca.nombre}}</td>
-                <td>{{coche.modelo.nombre}}</td>
-                <td>{{coche.version}}</td>
-                <td *ngIf="coche.cambio">Automático</td>
-                <td *ngIf="!coche.cambio">Manual</td>
-                <td>{{coche.color}}</td>
-                <td>{{coche.km}} km</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="container mb-5">
+<div class="container mt-5">
     <form>
         <div class="row">
             <div class="col">
@@ -57,11 +31,11 @@
                     <label for="version"><b>Versión:</b></label>
                     <div class="input-group">
                         <button class="btn btn-outline-danger" (click)="clearVersion()"
-                        [disabled]="!busqueda.version">Vaciar</button>
+                            [disabled]="!busqueda.version">Vaciar</button>
                         <input type="text" class="form-control" name="version" id="version"
-                        [(ngModel)]="busqueda.version">
+                            [(ngModel)]="busqueda.version">
                         <button class="btn btn-outline-success" (click)="listaCoches()"
-                        [disabled]="!busqueda.version">Filtrar</button>
+                            [disabled]="!busqueda.version">Filtrar</button>
                     </div>
                 </div>
             </div>
@@ -72,11 +46,11 @@
                     <label for="kmDesde"><b>Kilómetros Desde:</b></label>
                     <div class="input-group">
                         <button class="btn btn-outline-danger" (click)="clearKmDesde()"
-                        [disabled]="!busqueda.kmDesde">Vaciar</button>
+                            [disabled]="!busqueda.kmDesde">Vaciar</button>
                         <input type="number" class="form-control" name="kmDesde" id="kmDesde"
-                        [(ngModel)]="busqueda.kmDesde">
+                            [(ngModel)]="busqueda.kmDesde">
                         <button class="btn btn-outline-success" (click)="listaCoches()"
-                        [disabled]="!busqueda.kmDesde">Filtrar</button>
+                            [disabled]="!busqueda.kmDesde">Filtrar</button>
                     </div>
                 </div>
             </div>
@@ -84,31 +58,31 @@
                 <div class="form-group">
                     <label for="kmHasta"><b>Kilómetros Hasta:</b></label>
                     <div class="input-group">
-                            <button class="btn btn-outline-danger" (click)="clearKmHasta()"
+                        <button class="btn btn-outline-danger" (click)="clearKmHasta()"
                             [disabled]="!busqueda.kmHasta">Vaciar</button>
-                            <input type="number" class="form-control" name="kmHasta" id="kmHasta"
+                        <input type="number" class="form-control" name="kmHasta" id="kmHasta"
                             [(ngModel)]="busqueda.kmHasta">
-                            <button class="btn btn-outline-success" (click)="listaCoches()"
+                        <button class="btn btn-outline-success" (click)="listaCoches()"
                             [disabled]="!busqueda.kmHasta">Filtrar</button>
-                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <label for="cambio"><b>Cambio:</b></label>
                 <div class="form-control">
                     <label class="radio-inline">
-                        <input type="radio" name="cambio" id="cambio" checked
-                        [value]="''" [(ngModel)]="busqueda.cambio" (change)="listaCoches()"> Todos
+                        <input type="radio" name="cambio" id="cambio" checked [value]="''" [(ngModel)]="busqueda.cambio"
+                            (change)="listaCoches()"> Todos
                     </label>
                     &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="cambio" id="cambio"
-                        [value]="false" [(ngModel)]="busqueda.cambio" (change)="listaCoches()"> Manual
+                        <input type="radio" name="cambio" id="cambio" [value]="false" [(ngModel)]="busqueda.cambio"
+                            (change)="listaCoches()"> Manual
                     </label>
                     &nbsp;
                     <label class="radio-inline">
-                        <input type="radio" name="cambio" id="cambio"
-                        [value]="true" [(ngModel)]="busqueda.cambio" (change)="listaCoches()"> Automático
+                        <input type="radio" name="cambio" id="cambio" [value]="true" [(ngModel)]="busqueda.cambio"
+                            (change)="listaCoches()"> Automático
                     </label>
                     &nbsp;
                 </div>
@@ -118,8 +92,8 @@
             <div class="col-4">
                 <div class="form-group">
                     <label for="color"><b>Color:</b></label>
-                    <select class="form-control" name="color" id="color"
-                    [(ngModel)]="busqueda.color" (change)="listaCoches()">
+                    <select class="form-control" name="color" id="color" [(ngModel)]="busqueda.color"
+                        (change)="listaCoches()">
                         <option value="" selected>Elige Color</option>
                         <option value="blanco">Blanco</option>
                         <option value="gris">Gris</option>
@@ -127,11 +101,74 @@
                     </select>
                 </div>
             </div>
-            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="orderAscOrDesc"><b>Ordenar por:</b></label>
+                    <select class="form-control" name="orderAscOrDesc" id="orderAscOrDesc" [(ngModel)]="orderAscOrDesc"
+                        (change)="setOrder()">
+                        <option value="" selected>Ordenar por</option>
+                        <option value="marcaAsc">Marca(ascendente)</option>
+                        <option value="marcaDesc">Marca(descendente)</option>
+                        <option value="modeloAsc">Modelo(ascendente)</option>
+                        <option value="modeloDesc">Modelo(descendente)</option>
+                        <option value="versionAsc">Versión(ascendente)</option>
+                        <option value="versionDesc">Versión(descendente)</option>
+                        <option value="cambioAsc">Cambio(ascendente)</option>
+                        <option value="cambioDesc">Cambio(descendente)</option>
+                        <option value="kmAsc">Kilómetros(ascendente)</option>
+                        <option value="kmDesc">Kilómetros(descendente)</option>
+                        <option value="colorAsc">Color(ascendente)</option>
+                        <option value="colorDesc">Color(descendente)</option>
+                    </select>
+                </div>
+            </div>
             <div class="col-4">
                 <label for="reset"><b>Reset:</b></label>
                 <button class="btn btn-outline-danger form-control" (click)="clear()">Borrar Filtros</button>
             </div>
         </div>
     </form>
+</div>
+
+<div class="container mt-3">
+    <table class="table table-hover text-center">
+        <thead>
+            <tr>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Versión</th>
+                <th scope="col">Cambio</th>
+                <th scope="col">Color</th>
+                <th scope="col">Kilómetros</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let coche of coches">
+                <td>{{coche.modelo.marca.nombre}}</td>
+                <td>{{coche.modelo.nombre}}</td>
+                <td>{{coche.version}}</td>
+                <td *ngIf="coche.cambio">Automático</td>
+                <td *ngIf="!coche.cambio">Manual</td>
+                <td>{{coche.color}}</td>
+                <td>{{coche.km}} km</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container mb-2">
+    <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-col">
+            <!-- necesary import fontawesome cdn at index.html -->
+            <i class="fas fa-angle-double-left fa-2x" (click)="rewind()"></i>
+        </div>
+        <div class="d-flex flex-col">
+            <span *ngFor="let p of totalPages; let i = index">
+                <a style="cursor: pointer;" (click)="setPage(i)" [ngClass]="{'text-primary': i !== page }">{{ i+1
+                    }}&nbsp;&nbsp;&nbsp;</a>
+            </span>
+        </div>
+        <div class="d-flex flex-col">
+            <i class="fas fa-angle-double-right fa-2x" (click)="forward()"></i>
+        </div>
+    </div>
 </div>

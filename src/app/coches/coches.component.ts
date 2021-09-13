@@ -23,6 +23,17 @@ export class CochesComponent implements OnInit {
     kmHasta: null
   };
 
+  // paginator variables
+  totalPages: Array<number>;
+  page = 0;
+  size = 6;
+  order = '';
+  orderAscOrDesc = '';
+  asc = true;
+
+  isFirst = false;
+  isLast = false;
+
   constructor(private cochesService: CochesService) { }
 
   ngOnInit() {
@@ -42,9 +53,12 @@ export class CochesComponent implements OnInit {
   }
 
   listaCoches(): void {
-    this.cochesService.coches(this.busqueda).subscribe(
+    this.cochesService.coches(this.busqueda, this.page, this.size, this.order, this.asc).subscribe(
       data => {
-        this.coches = data;
+        this.coches = data['content'];
+        this.isFirst = data['first'];
+        this.isLast = data['last'];
+        this.totalPages = new Array(data['totalPages']);
       },
       err => {
         console.log(err);
@@ -86,6 +100,93 @@ export class CochesComponent implements OnInit {
     this.busqueda.color = '';
     this.busqueda.kmDesde = null;
     this.busqueda.kmHasta = null;
+    // paginator reset
+    this.page = 0;
+    this.size = 6;
+    this.order = '';
+    this.asc = true;
+    this.isFirst = false;
+    this.isLast = false;
+    this. orderAscOrDesc = '';
     this.listaCoches();
   }
+
+  // paginator methods
+
+  rewind(): void {
+    if (!this.isFirst) {
+      this.page--;
+      this.listaCoches();
+    }
+  }
+
+  forward(): void {
+    if (!this.isLast) {
+      this.page++;
+      this.listaCoches();
+    }
+  }
+
+  setPage(page: number): void {
+    this.page = page;
+    this.listaCoches();
+  }
+
+  setOrder(): void {
+    switch (this.orderAscOrDesc) {
+      case 'marcaAsc':
+        this.order = 'marca';
+        this.asc = true;
+        break;
+      case 'marcaDesc':
+        this.order = 'marca';
+        this.asc = false;
+        break;
+      case 'modeloAsc':
+        this.order = 'modelo';
+        this.asc = true;
+        break;
+      case 'modeloDesc':
+        this.order = 'modelo';
+        this.asc = false;
+        break;
+      case 'versionAsc':
+        this.order = 'version';
+        this.asc = true;
+        break;
+      case 'versionDesc':
+        this.order = 'version';
+        this.asc = false;
+        break;
+      case 'cambioAsc':
+        this.order = 'cambio';
+        this.asc = true;
+        break;
+      case 'cambioDesc':
+        this.order = 'cambio';
+        this.asc = false;
+        break;
+      case 'colorAsc':
+        this.order = 'color';
+        this.asc = true;
+        break;
+      case 'colorDesc':
+        this.order = 'color';
+        this.asc = false;
+        break;
+      case 'kmAsc':
+        this.order = 'km';
+        this.asc = true;
+        break;
+      case 'kmDesc':
+        this.order = 'km';
+        this.asc = false;
+        break;
+      default:
+        break
+    }
+    this.listaCoches();
+  }
+
+
 }

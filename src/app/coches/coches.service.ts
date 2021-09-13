@@ -16,7 +16,7 @@ export class CochesService {
     return this.httpClient.get<any[]>(this.cochesURL + 'marca/list');
   }
 
-  coches(busqueda: Busqueda): Observable<any[]> {
-    return this.httpClient.post<any[]>(this.cochesURL + 'coche/list', busqueda);
+  coches(busqueda: Busqueda, page: number, size: number, order: string, asc: boolean): Observable<any[]> {
+    return this.httpClient.post<any[]>(this.cochesURL + `coche/list?page=${page}&size=${size}&order=${order}&asc=${asc}`, busqueda);
   }
 }
